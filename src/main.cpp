@@ -7,7 +7,7 @@ int main()
 {
     std::string fen;
     std::cout << "Please enter FEN: ";
-    std::cin >> fen;
+    std::getline(std::cin, fen);
 
     Board board(fen);
     board.print_fen(board);
