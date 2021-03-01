@@ -1,6 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 #include "defs.h"
+#include "position.h"
 #include <string>
 
 class Board
@@ -9,32 +10,12 @@ private:
     // Bitboard for every piece type, when I want to find
     // only piece type of certain color, can do bitwise AND
     // with the piece and the color
-    bitboard pieces[PIECES_ARRAY_LENGTH] = {0};
-
-    bitboard occupied;
-    bitboard empty;
-    bitboard en_passant;
-
-    bool bWKCastle;
-    bool bWQCastle;
-    bool bBKCastle;
-    bool bBQCastle;
-    bool white_to_move;
+    Position position;
 
 
 public:
 
-    enum EnumPieces
-    {
-        Pawn,
-        Knight,
-        Bishop,
-        Rook,
-        Queen,
-        King,
-        White,
-        Black
-    };
+    
 
     Board (std::string fen);
     void print_fen(Board board);
