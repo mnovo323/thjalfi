@@ -10,7 +10,7 @@ Thjalfi is/will be a C++ chess engine using bitboards. I decided to create this 
 - [x] Add ability to print board to console
 - [ ] Implement rules/search legal moves
 - [ ] Implement evaluation
-- [ ] Implement Chess Engine Communication Protocol
+- [ ] Implement UCI
 - [ ] Streamline code
 - [x] Make a cmake or make file?
 - [x] Separate board class from position representation

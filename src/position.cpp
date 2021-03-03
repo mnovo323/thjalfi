@@ -9,5 +9,5 @@ Position::Position()
     empty = 0xffffffffffffffffULL;
     en_passant = 0ULL;
     castle_rights = 1 + 2 + 4 + 8;
-    white_to_move = false;
+    white_to_move = true;
 }
