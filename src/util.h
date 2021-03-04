@@ -8,5 +8,6 @@
 // then bitwise or with all the moved ranks
 bitboard flip_vertical(const bitboard& b);
 bitboard flip_horizontal(const bitboard& b);
+int bitscan_forward(bitboard& b);
 
 #endif

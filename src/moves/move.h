@@ -17,7 +17,7 @@ private:
     unsigned short int piece_type;
     unsigned short int color_type;
 public:
-    Move(unsigned int& from, unsigned int& to, unsigned int& flags, unsigned short int& piece, unsigned short int& color);
+    Move(int from, int to, int flags, EnumPieces piece, EnumPieces color);
 
     unsigned short int get_to();
     unsigned short int get_from();

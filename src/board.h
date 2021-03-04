@@ -6,14 +6,11 @@
 
 class Board
 {
-private:
+public:
     // Bitboard for every piece type, when I want to find
     // only piece type of certain color, can do bitwise AND
     // with the piece and the color
     Position position;
-
-
-public:
 
     
 

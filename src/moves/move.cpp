@@ -1,7 +1,7 @@
 #include "move.h"
 #include "../defs.h"
 
-Move::Move(unsigned int& from, unsigned int& to, unsigned int& flags, unsigned short int& piece, unsigned short int& color)
+Move::Move(int from, int to, int flags, EnumPieces piece, EnumPieces color)
 {
     move = 0;
     //6 bits, 6 bits, and 4 bits on the masks

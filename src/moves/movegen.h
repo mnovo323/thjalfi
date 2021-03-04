@@ -9,7 +9,7 @@ namespace Movegen
 void generate_moves(Position* position);
 
 void pawn_push(Position* position);
-void pawn_attack(Position* position);
+//void pawn_attack(Position* position);
 
 };
 
