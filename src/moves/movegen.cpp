@@ -13,11 +13,9 @@ void Movegen::pawn_push(Position* position)
         bitboard pawns = position->pieces[Pawn] & position->pieces[White];
         bitboard valid_one_pushes = (pawns << 8) & ~position->occupied;
         bitboard valid_two_pushes = ((pawns & 0x000000000000ff00ULL) << 16) & ~position->occupied & ~(position->occupied << 8);
-        //bitscan through move boards and generate moves and push into position->move_list
-        //look into debruijn sequence?
+        //bitscan through move boards and generate moves and push moves into position->move_list
         while(valid_one_pushes)
         {
-            std::cout << "made it here 2" << std::endl;
             int to = bitscan_forward(valid_one_pushes);
             valid_one_pushes &= valid_one_pushes - 1;
             int from = to >> 8;
@@ -26,7 +24,6 @@ void Movegen::pawn_push(Position* position)
         }
         while(valid_two_pushes)
         {
-            std::cout << "got here 3" << std::endl;
             int to = bitscan_forward(valid_two_pushes);
             valid_two_pushes &= valid_two_pushes - 1;
             int from = to >> 16;
@@ -40,7 +37,6 @@ void Movegen::generate_moves(Position* position)
 {
     pawn_push(position);
     //pawn_attack(position);
-    std::cout << "got here 1" << std::endl;
 };
 
 

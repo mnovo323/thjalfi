@@ -17,7 +17,7 @@ int main()
     Movegen::generate_moves(&(board.position));
     double duration = (std::clock() - start ) / (double) CLOCKS_PER_SEC;
     int size = board.position.move_list.size();
-    std::cout << "Calculated " << size << "moves in " << duration << "seconds." << std::endl;
+    std::cout << "Calculated " << size << " moves in " << duration << " seconds." << std::endl;
 
     return 0;
 }
