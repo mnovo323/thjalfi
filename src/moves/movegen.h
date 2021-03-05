@@ -6,11 +6,11 @@
 
 namespace Movegen
 {
-void generate_moves(Position* position);
+    void generate_moves(Position *position);
 
-void pawn_push(Position* position);
-//void pawn_attack(Position* position);
+    void pawn_push(Position *position);
+    void pawn_attack(Position *position);
 
-};
+}; // namespace Movegen
 
 #endif

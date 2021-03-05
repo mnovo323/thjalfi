@@ -16,254 +16,253 @@ Board::Board(std::string fen)
     {
         switch (c)
         {
-            case 'p':
-                position.pieces[Pawn] = position.pieces[Pawn] | (1ULL << fen_index);
-                position.pieces[Black] = position.pieces[Black] | (1ULL << fen_index);
-                fen_index++;
-                continue;
-            case 'n':
-                position.pieces[Knight] = position.pieces[Knight] | (1ULL << fen_index);
-                position.pieces[Black] = position.pieces[Black] | (1ULL << fen_index);
-                fen_index++;
-                continue;
-            case 'b':
-                if (fen_index < 64)
-                {
-                    position.pieces[Bishop] = position.pieces[Bishop] | (1ULL << fen_index);
-                    position.pieces[Black] = position.pieces[Black] | (1ULL << fen_index);
-                    fen_index++;
-                    continue;
-                }
-                else if (fen_index == 64)
-                {
-                    fen_index++;
-                    continue;
-                }
-                else
-                {
-                    position.en_passant = (1ULL << 1);
-                    if (fen[loop_index + 1] == '3')
-                    {
-                        position.en_passant = position.en_passant << 40;
-                    }
-                    else
-                    {
-                        position.en_passant = position.en_passant << 16;
-                    }
-                    
-                }
-                
-            case 'r':
-                position.pieces[Rook] = position.pieces[Rook] | (1ULL << fen_index);
-                position.pieces[Black] = position.pieces[Black] | (1ULL << fen_index);
-                fen_index++;
-                continue;
-            case 'q':
-                if (fen_index < 64)
-                {
-                    position.pieces[Queen] = position.pieces[Queen] | (1ULL << fen_index);
-                    position.pieces[Black] = position.pieces[Black] | (1ULL << fen_index);
-                    fen_index++;
-                    continue;
-                }
-                else
-                {
-                    position.castle_rights += BlackQueenCastle;
-                    fen_index++;
-                    continue;
-                }
-                
-            case 'k':
-                if (fen_index < 64)
-                {
-                    position.pieces[King] = position.pieces[King] | (1ULL << fen_index);
-                    position.pieces[Black] = position.pieces[Black] | (1ULL << fen_index);
-                    fen_index++;
-                    continue;
-                }
-                else
-                {
-                    position.castle_rights += BlackKingCastle;
-                    fen_index++;
-                    continue;
-                }
-                
-            case 'P':
-                position.pieces[Pawn] = position.pieces[Pawn] | (1ULL << fen_index);
-                position.pieces[White] = position.pieces[White] | (1ULL << fen_index);
-                fen_index++;
-                continue;
-            case 'N':
-                
-                position.pieces[Knight] = position.pieces[Knight] | (1ULL << fen_index);
-                position.pieces[White] = position.pieces[White] | (1ULL << fen_index);
-                fen_index++;
-                continue;
-            case 'B':
+        case 'p':
+            position.pieces[Pawn] = position.pieces[Pawn] | (1ULL << fen_index);
+            position.pieces[Black] = position.pieces[Black] | (1ULL << fen_index);
+            fen_index++;
+            continue;
+        case 'n':
+            position.pieces[Knight] = position.pieces[Knight] | (1ULL << fen_index);
+            position.pieces[Black] = position.pieces[Black] | (1ULL << fen_index);
+            fen_index++;
+            continue;
+        case 'b':
+            if (fen_index < 64)
+            {
                 position.pieces[Bishop] = position.pieces[Bishop] | (1ULL << fen_index);
-                position.pieces[White] = position.pieces[White] | (1ULL << fen_index);
+                position.pieces[Black] = position.pieces[Black] | (1ULL << fen_index);
                 fen_index++;
                 continue;
-            case 'R':
-                
-                position.pieces[Rook] = position.pieces[Rook] | (1ULL << fen_index);
-                position.pieces[White] = position.pieces[White] | (1ULL << fen_index);
+            }
+            else if (fen_index == 64)
+            {
+                position.white_to_move = false;
                 fen_index++;
                 continue;
-            case 'Q':
-                if (fen_index < 64)
+            }
+            else
+            {
+                position.en_passant = (1ULL << 1);
+                if (fen[loop_index + 1] == '3')
                 {
-                    position.pieces[Queen] = position.pieces[Queen] | (1ULL << fen_index);
-                    position.pieces[White] = position.pieces[White] | (1ULL << fen_index);
-                    fen_index++;
-                    continue;
+                    position.en_passant = position.en_passant << 40;
                 }
                 else
                 {
-                    position.castle_rights += WhiteQueenCastle;
-                    fen_index++;
-                    continue;
+                    position.en_passant = position.en_passant << 16;
                 }
-            case 'K':
-                if (fen_index < 64)
-                {
-                    position.pieces[King] = position.pieces[King] | (1ULL << fen_index);
-                    position.pieces[White] = position.pieces[White] | (1ULL << fen_index);
-                    fen_index++;
-                    continue;
-                }
-                else
-                {
-                    position.castle_rights += WhiteKingCastle;
-                    fen_index++;
-                    continue;
-                }
-            case 'w':
-                position.white_to_move = true;
-                fen_index++;
-                continue;
-            case '1':
-                if (fen_index < 64)
-                {
-                    fen_index++;
-                    continue;
-                }
-            case '2':
-                if (fen_index < 64)
-                {
-                    fen_index += 2;
-                    continue;
-                }
-            case '3':
-                if (fen_index < 64)
-                {
-                    fen_index += 3;
-                    continue;
-                }
-            case '4':
-                if (fen_index < 64)
-                {
-                    fen_index += 4;
-                    continue;
-                }
-            case '5':
-                if (fen_index < 64)
-                {
-                    fen_index += 5;
-                    continue;
-                }
-            case '6':
-                if (fen_index < 64)
-                {
-                    fen_index += 6;
-                    continue;
-                }
-            case '7':
-                if (fen_index < 64)
-                {
-                    fen_index += 7;
-                    continue;
-                }
-            case '8':
-                if (fen_index < 64)
-                {
-                    fen_index += 8;
-                    continue;
-                }
-            case '-':
-                past_enpassant = true;
-                fen_index++;
-            case 'a':
-                position.en_passant = (1);
-                    if (fen[loop_index + 1] == '3')
-                    {
-                        position.en_passant = position.en_passant << 40;
-                    }
-                    else
-                    {
-                        position.en_passant = position.en_passant << 16;
-                    }
-            case 'c':
-                position.en_passant = (1ULL << 2);
-                    if (fen[loop_index + 1] == '3')
-                    {
-                        position.en_passant = position.en_passant << 40;
-                    }
-                    else
-                    {
-                        position.en_passant = position.en_passant << 16;
-                    }
-            case 'd':
-                position.en_passant = (1ULL << 3);
-                    if (fen[loop_index + 1] == '3')
-                    {
-                        position.en_passant = position.en_passant << 40;
-                    }
-                    else
-                    {
-                        position.en_passant = position.en_passant << 16;
-                    }
-            case 'e':
-                position.en_passant = (1ULL << 4);
-                    if (fen[loop_index + 1] == '3')
-                    {
-                        position.en_passant = position.en_passant << 40;
-                    }
-                    else
-                    {
-                        position.en_passant = position.en_passant << 16;
-                    }
-            case 'f':
-                position.en_passant = (1ULL << 5);
-                    if (fen[loop_index + 1] == '3')
-                    {
-                        position.en_passant = position.en_passant << 40;
-                    }
-                    else
-                    {
-                        position.en_passant = position.en_passant << 16;
-                    }
-            case 'g':
-                position.en_passant = (1ULL << 6);
-                    if (fen[loop_index + 1] == '3')
-                    {
-                        position.en_passant = position.en_passant << 40;
-                    }
-                    else
-                    {
-                        position.en_passant = position.en_passant << 16;
-                    }
-            case 'h':
-                position.en_passant = (1ULL << 7);
-                    if (fen[loop_index + 1] == '3')
-                    {
-                        position.en_passant = position.en_passant << 40;
-                    }
-                    else
-                    {
-                        position.en_passant = position.en_passant << 16;
-                    }
+            }
 
+        case 'r':
+            position.pieces[Rook] = position.pieces[Rook] | (1ULL << fen_index);
+            position.pieces[Black] = position.pieces[Black] | (1ULL << fen_index);
+            fen_index++;
+            continue;
+        case 'q':
+            if (fen_index < 64)
+            {
+                position.pieces[Queen] = position.pieces[Queen] | (1ULL << fen_index);
+                position.pieces[Black] = position.pieces[Black] | (1ULL << fen_index);
+                fen_index++;
+                continue;
+            }
+            else
+            {
+                position.castle_rights += BlackQueenCastle;
+                fen_index++;
+                continue;
+            }
+
+        case 'k':
+            if (fen_index < 64)
+            {
+                position.pieces[King] = position.pieces[King] | (1ULL << fen_index);
+                position.pieces[Black] = position.pieces[Black] | (1ULL << fen_index);
+                fen_index++;
+                continue;
+            }
+            else
+            {
+                position.castle_rights += BlackKingCastle;
+                fen_index++;
+                continue;
+            }
+
+        case 'P':
+            position.pieces[Pawn] = position.pieces[Pawn] | (1ULL << fen_index);
+            position.pieces[White] = position.pieces[White] | (1ULL << fen_index);
+            fen_index++;
+            continue;
+        case 'N':
+
+            position.pieces[Knight] = position.pieces[Knight] | (1ULL << fen_index);
+            position.pieces[White] = position.pieces[White] | (1ULL << fen_index);
+            fen_index++;
+            continue;
+        case 'B':
+            position.pieces[Bishop] = position.pieces[Bishop] | (1ULL << fen_index);
+            position.pieces[White] = position.pieces[White] | (1ULL << fen_index);
+            fen_index++;
+            continue;
+        case 'R':
+
+            position.pieces[Rook] = position.pieces[Rook] | (1ULL << fen_index);
+            position.pieces[White] = position.pieces[White] | (1ULL << fen_index);
+            fen_index++;
+            continue;
+        case 'Q':
+            if (fen_index < 64)
+            {
+                position.pieces[Queen] = position.pieces[Queen] | (1ULL << fen_index);
+                position.pieces[White] = position.pieces[White] | (1ULL << fen_index);
+                fen_index++;
+                continue;
+            }
+            else
+            {
+                position.castle_rights += WhiteQueenCastle;
+                fen_index++;
+                continue;
+            }
+        case 'K':
+            if (fen_index < 64)
+            {
+                position.pieces[King] = position.pieces[King] | (1ULL << fen_index);
+                position.pieces[White] = position.pieces[White] | (1ULL << fen_index);
+                fen_index++;
+                continue;
+            }
+            else
+            {
+                position.castle_rights += WhiteKingCastle;
+                fen_index++;
+                continue;
+            }
+        case 'w':
+            position.white_to_move = true;
+            fen_index++;
+            continue;
+        case '1':
+            if (fen_index < 64)
+            {
+                fen_index++;
+                continue;
+            }
+        case '2':
+            if (fen_index < 64)
+            {
+                fen_index += 2;
+                continue;
+            }
+        case '3':
+            if (fen_index < 64)
+            {
+                fen_index += 3;
+                continue;
+            }
+        case '4':
+            if (fen_index < 64)
+            {
+                fen_index += 4;
+                continue;
+            }
+        case '5':
+            if (fen_index < 64)
+            {
+                fen_index += 5;
+                continue;
+            }
+        case '6':
+            if (fen_index < 64)
+            {
+                fen_index += 6;
+                continue;
+            }
+        case '7':
+            if (fen_index < 64)
+            {
+                fen_index += 7;
+                continue;
+            }
+        case '8':
+            if (fen_index < 64)
+            {
+                fen_index += 8;
+                continue;
+            }
+        case '-':
+            past_enpassant = true;
+            fen_index++;
+        case 'a':
+            position.en_passant = (1);
+            if (fen[loop_index + 1] == '3')
+            {
+                position.en_passant = position.en_passant << 40;
+            }
+            else
+            {
+                position.en_passant = position.en_passant << 16;
+            }
+        case 'c':
+            position.en_passant = (1ULL << 2);
+            if (fen[loop_index + 1] == '3')
+            {
+                position.en_passant = position.en_passant << 40;
+            }
+            else
+            {
+                position.en_passant = position.en_passant << 16;
+            }
+        case 'd':
+            position.en_passant = (1ULL << 3);
+            if (fen[loop_index + 1] == '3')
+            {
+                position.en_passant = position.en_passant << 40;
+            }
+            else
+            {
+                position.en_passant = position.en_passant << 16;
+            }
+        case 'e':
+            position.en_passant = (1ULL << 4);
+            if (fen[loop_index + 1] == '3')
+            {
+                position.en_passant = position.en_passant << 40;
+            }
+            else
+            {
+                position.en_passant = position.en_passant << 16;
+            }
+        case 'f':
+            position.en_passant = (1ULL << 5);
+            if (fen[loop_index + 1] == '3')
+            {
+                position.en_passant = position.en_passant << 40;
+            }
+            else
+            {
+                position.en_passant = position.en_passant << 16;
+            }
+        case 'g':
+            position.en_passant = (1ULL << 6);
+            if (fen[loop_index + 1] == '3')
+            {
+                position.en_passant = position.en_passant << 40;
+            }
+            else
+            {
+                position.en_passant = position.en_passant << 16;
+            }
+        case 'h':
+            position.en_passant = (1ULL << 7);
+            if (fen[loop_index + 1] == '3')
+            {
+                position.en_passant = position.en_passant << 40;
+            }
+            else
+            {
+                position.en_passant = position.en_passant << 16;
+            }
         }
         loop_index++;
     }
@@ -277,22 +276,20 @@ Board::Board(std::string fen)
     position.en_passant = flip_vertical(position.en_passant);
     position.occupied = position.pieces[White] | position.pieces[Black];
     position.empty = ~position.occupied;
-
 }
 
 void Board::print_fen(Board board)
 {
     char output[64] =
-    {
-        '.', '.', '.', '.', '.','.', '.', '.',
-        '.', '.', '.', '.', '.','.', '.', '.',
-        '.', '.', '.', '.', '.','.', '.', '.',
-        '.', '.', '.', '.', '.','.', '.', '.',
-        '.', '.', '.', '.', '.','.', '.', '.',
-        '.', '.', '.', '.', '.','.', '.', '.',
-        '.', '.', '.', '.', '.','.', '.', '.',
-        '.', '.', '.', '.', '.','.', '.', '.'
-    };
+        {
+            '.', '.', '.', '.', '.', '.', '.', '.',
+            '.', '.', '.', '.', '.', '.', '.', '.',
+            '.', '.', '.', '.', '.', '.', '.', '.',
+            '.', '.', '.', '.', '.', '.', '.', '.',
+            '.', '.', '.', '.', '.', '.', '.', '.',
+            '.', '.', '.', '.', '.', '.', '.', '.',
+            '.', '.', '.', '.', '.', '.', '.', '.',
+            '.', '.', '.', '.', '.', '.', '.', '.'};
     bitboard black_pawns = board.get_black_pawns(board);
     bitboard black_knights = board.get_black_knights(board);
     bitboard black_bishops = board.get_black_bishops(board);
@@ -307,7 +304,7 @@ void Board::print_fen(Board board)
     bitboard white_king = board.get_white_king(board);
     for (int i = 0; i < 64; i++)
     {
-        if (((black_pawns >> i)) & 1 == 1)
+        if (((black_pawns >> i) & 1) == 1)
         {
             output[i] = 'p';
             continue;
@@ -326,7 +323,7 @@ void Board::print_fen(Board board)
         {
             output[i] = 'r';
             continue;
-        } 
+        }
         if (((black_queens >> i) & 1) == 1)
         {
             output[i] = 'q';
@@ -379,7 +376,7 @@ void Board::print_fen(Board board)
     }
 
     int index(55);
-    for(int i = 8; i > 0; i--)
+    for (int i = 8; i > 0; i--)
     {
         for (int j = 8; j > 0; j--)
         {
@@ -390,61 +387,61 @@ void Board::print_fen(Board board)
     }
 }
 
-bitboard Board::get_white_pawns(const Board& board)
+bitboard Board::get_white_pawns(const Board &board)
 {
     return position.pieces[White] & position.pieces[Pawn];
 }
 
-bitboard Board::get_black_pawns(const Board& board)
+bitboard Board::get_black_pawns(const Board &board)
 {
     return position.pieces[Black] & position.pieces[Pawn];
 }
-bitboard Board::get_white_knights(const Board& board)
+bitboard Board::get_white_knights(const Board &board)
 {
     return position.pieces[White] & position.pieces[Knight];
 }
 
-bitboard Board::get_black_knights(const Board& board)
+bitboard Board::get_black_knights(const Board &board)
 {
     return position.pieces[Black] & position.pieces[Knight];
 }
 
-bitboard Board::get_white_bishops(const Board& board)
+bitboard Board::get_white_bishops(const Board &board)
 {
     return position.pieces[White] & position.pieces[Bishop];
 }
 
-bitboard Board::get_black_bishops(const Board& board)
+bitboard Board::get_black_bishops(const Board &board)
 {
     return position.pieces[Black] & position.pieces[Bishop];
 }
 
-bitboard Board::get_white_rooks(const Board& board)
+bitboard Board::get_white_rooks(const Board &board)
 {
     return position.pieces[White] & position.pieces[Rook];
 }
 
-bitboard Board::get_black_rooks(const Board& board)
+bitboard Board::get_black_rooks(const Board &board)
 {
     return position.pieces[Black] & position.pieces[Rook];
 }
 
-bitboard Board::get_white_queens(const Board& board)
+bitboard Board::get_white_queens(const Board &board)
 {
     return position.pieces[White] & position.pieces[Queen];
 }
 
-bitboard Board::get_black_queens(const Board& board)
+bitboard Board::get_black_queens(const Board &board)
 {
     return position.pieces[Black] & position.pieces[Queen];
 }
 
-bitboard Board::get_white_king(const Board& board)
+bitboard Board::get_white_king(const Board &board)
 {
     return position.pieces[White] & position.pieces[King];
 }
 
-bitboard Board::get_black_king(const Board& board)
+bitboard Board::get_black_king(const Board &board)
 {
     return position.pieces[Black] & position.pieces[King];
 }

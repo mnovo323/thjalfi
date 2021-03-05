@@ -14,7 +14,7 @@ void Movegen::pawn_push(Position* position)
         bitboard valid_one_pushes = (pawns << 8) & ~position->occupied;
         bitboard valid_two_pushes = ((pawns & 0x000000000000ff00ULL) << 16) & ~position->occupied & ~(position->occupied << 8);
         //bitscan through move boards and generate moves and push moves into position->move_list
-        while(valid_one_pushes)
+        while (valid_one_pushes)
         {
             int to = bitscan_forward(valid_one_pushes);
             valid_one_pushes &= valid_one_pushes - 1;
@@ -22,7 +22,7 @@ void Movegen::pawn_push(Position* position)
             Move move_to_add(from, to, 0, Pawn, White);
             position->move_list.push_back(move_to_add);
         }
-        while(valid_two_pushes)
+        while (valid_two_pushes)
         {
             int to = bitscan_forward(valid_two_pushes);
             valid_two_pushes &= valid_two_pushes - 1;
@@ -31,15 +31,92 @@ void Movegen::pawn_push(Position* position)
             position->move_list.push_back(move_to_add);
         }
     }
+    else
+    {
+        bitboard pawns = position->pieces[Pawn] & position->pieces[Black];
+        bitboard valid_one_pushes = (pawns >> 8) & ~position->occupied;
+        bitboard valid_two_pushes = ((pawns & 0x00FF000000000000ULL) >> 16) & ~position->occupied & ~(position->occupied >> 8);
+
+        while (valid_one_pushes)
+        {
+            int to = bitscan_forward(valid_one_pushes);
+            valid_one_pushes &= valid_one_pushes - 1;
+            int from = to << 8;
+            Move move_to_add(from, to, 0, Pawn, Black);
+            position->move_list.push_back(move_to_add);
+        }
+        while (valid_two_pushes)
+        {
+            int to = bitscan_forward(valid_two_pushes);
+            valid_two_pushes &= valid_two_pushes - 1;
+            int from = to << 16;
+            Move move_to_add(from, to, 0, Pawn, Black);
+            position->move_list.push_back(move_to_add);
+        }
+    }
+};
+
+void Movegen::pawn_attack(Position* position)
+{
+    if (position->white_to_move)
+    {
+        //NE & NW attacks
+        bitboard pawns = position->pieces[Pawn] & position->pieces[White];
+        bitboard valid_NE = (pawns << 9) & ~0x0101010101010101 & position->occupied & position->pieces[Black];
+        bitboard valid_NW = (pawns << 7) & ~0x1010101010101010 & position->occupied & position->pieces[Black];
+
+        while (valid_NE)
+        {
+            int to = bitscan_forward(valid_NE);
+            valid_NE &= valid_NE - 1;
+            int from = to >> 9;
+            Move move_to_add(from, to, 0, Pawn, White);
+            position->move_list.push_back(move_to_add);
+        }
+        while (valid_NW)
+        {
+            int to = bitscan_forward(valid_NW);
+            valid_NW &= valid_NW - 1;
+            int from = to >> 7;
+            Move move_to_add(from, to, 0, Pawn, White);
+            position->move_list.push_back(move_to_add);
+        }
+
+
+    }
+    else
+    {
+        //SE & SW attacks
+        bitboard pawns = position->pieces[Pawn] & position->pieces[Black];
+        bitboard valid_SW = (pawns >> 9) & ~0x101010101010101 & position->occupied & position->pieces[White];
+        bitboard valid_SE = (pawns >> 7) & ~0x01010101010101010 & position->occupied & position->pieces[White];
+
+        while (valid_SE)
+        {
+            int to = bitscan_forward(valid_SE);
+            valid_SE &= valid_SE - 1;
+            int from = to << 7;
+            Move move_to_add(from, to, 0, Pawn, Black);
+            position->move_list.push_back(move_to_add);
+        }
+        while (valid_SW)
+        {
+            int to = bitscan_forward(valid_SW);
+            valid_SW &= valid_SW - 1;
+            int from = to << 9;
+            Move move_to_add(from, to, 0, Pawn, Black);
+            position->move_list.push_back(move_to_add);
+        }
+    }
+    
 };
 
 void Movegen::generate_moves(Position* position)
 {
+    assert(position != nullptr);
     pawn_push(position);
-    //pawn_attack(position);
+    pawn_attack(position);
 };
-
-
 
 /*void Movegen::pawn_attack(Position* position)
 {

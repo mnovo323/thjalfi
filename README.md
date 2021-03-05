@@ -16,3 +16,4 @@ Thjalfi is/will be a C++ chess engine using bitboards. I decided to create this 
 - [x] Separate board class from position representation
 - [ ] Make a mailbox board representation for future calculations
 - [ ] Make enums for each square and piece type?
+- [ ] Implement make/unmake functions
