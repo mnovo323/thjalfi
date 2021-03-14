@@ -5,6 +5,7 @@
 #include "../util.h"
 #include <vector>
 #include <iostream>
+#include <cassert>
 
 void Movegen::pawn_push(Position* position)
 {
@@ -63,7 +64,7 @@ void Movegen::pawn_attack(Position* position)
         //NE & NW attacks
         bitboard pawns = position->pieces[Pawn] & position->pieces[White];
         bitboard valid_NE = (pawns << 9) & ~0x0101010101010101 & position->occupied & position->pieces[Black];
-        bitboard valid_NW = (pawns << 7) & ~0x1010101010101010 & position->occupied & position->pieces[Black];
+        bitboard valid_NW = (pawns << 7) & ~0x8080808080808080 & position->occupied & position->pieces[Black];
 
         while (valid_NE)
         {
@@ -88,8 +89,8 @@ void Movegen::pawn_attack(Position* position)
     {
         //SE & SW attacks
         bitboard pawns = position->pieces[Pawn] & position->pieces[Black];
-        bitboard valid_SW = (pawns >> 9) & ~0x101010101010101 & position->occupied & position->pieces[White];
-        bitboard valid_SE = (pawns >> 7) & ~0x01010101010101010 & position->occupied & position->pieces[White];
+        bitboard valid_SW = (pawns >> 9) & ~0x8080808080808080 & position->occupied & position->pieces[White];
+        bitboard valid_SE = (pawns >> 7) & ~0x0101010101010101 & position->occupied & position->pieces[White];
 
         while (valid_SE)
         {
@@ -111,11 +112,69 @@ void Movegen::pawn_attack(Position* position)
     
 };
 
+void Movegen::knight_move(Position* position)
+{
+    if (position->white_to_move)
+    {
+        bitboard knights = position->pieces[Knight] & position->pieces[White];
+        while (knights)
+        {
+            int from = bitscan_forward(knights);
+            knights &= knights - 1;
+            bitboard possible_moves = knight_table[from] & ~position->pieces[White];
+            bitboard attack_moves = possible_moves & position->pieces[Black];
+            bitboard quiet_moves = possible_moves ^ attack_moves;
+            while (attack_moves)
+            {
+                int to = bitscan_forward(attack_moves);
+                attack_moves &= attack_moves - 1;
+                Move move_to_add(from, to, 0, Knight, White);
+                position->move_list.push_back(move_to_add);
+            }
+            while ( quiet_moves)
+            {
+                int to = bitscan_forward(quiet_moves);
+                quiet_moves &= quiet_moves - 1;
+                Move move_to_add(from, to, 0, Knight, White);
+                position->move_list.push_back(move_to_add);
+            }
+        }
+    }
+    else
+    {
+        bitboard knights = position->pieces[Knight] & position->pieces[Black];
+        while (knights)
+        {
+            int from = bitscan_forward(knights);
+            knights &= knights - 1;
+            bitboard possible_moves = knight_table[from] & ~position->pieces[Black];
+            bitboard attack_moves = possible_moves & position->pieces[White];
+            bitboard quiet_moves = possible_moves ^ attack_moves;
+            while (attack_moves)
+            {
+                int to = bitscan_forward(attack_moves);
+                attack_moves &= attack_moves - 1;
+                Move move_to_add(from, to, 0, Knight, Black);
+                position->move_list.push_back(move_to_add);
+            }
+            while ( quiet_moves)
+            {
+                int to = bitscan_forward(quiet_moves);
+                quiet_moves &= quiet_moves - 1;
+                Move move_to_add(from, to, 0, Knight, Black);
+                position->move_list.push_back(move_to_add);
+            }
+        }
+    }
+
+};
+
 void Movegen::generate_moves(Position* position)
 {
     assert(position != nullptr);
     pawn_push(position);
     pawn_attack(position);
+    knight_move(position);
 };
 
 /*void Movegen::pawn_attack(Position* position)

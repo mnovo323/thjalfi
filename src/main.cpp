@@ -4,9 +4,13 @@
 #include <string>
 #include "moves/movegen.h"
 #include "ctime"
+#include "defs.h"
+
+bitboard knight_table[63];
 
 int main()
 {
+    init_arrays(knight_table);
     std::string fen;
     std::cout << "Please enter FEN: ";
     std::getline(std::cin, fen);

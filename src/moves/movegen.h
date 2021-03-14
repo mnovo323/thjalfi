@@ -11,6 +11,8 @@ namespace Movegen
     void pawn_push(Position *position);
     void pawn_attack(Position *position);
 
+    void knight_move(Position* position);
+
 }; // namespace Movegen
 
 #endif
