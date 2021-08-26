@@ -169,6 +169,21 @@ void Movegen::knight_move(Position* position)
 
 };
 
+void Movegen::bishop_move(Position* position)
+{
+    if (position->white_to_move)
+    {
+        bitboard bishops = position->pieces[White] && position->pieces[Bishop];
+        
+        // Need a way to bitscan from a certain position to find blockers
+        // Find out if the blocker is an enemy piece or not
+        // If it is, add that also as a capture
+        // otherwise add other squares in that attack vector.
+        // Need efficient algorithm to transform the bitboard for the bitscanning algorithm.
+        // BSF wont work here...
+    }
+}
+
 void Movegen::generate_moves(Position* position)
 {
     assert(position != nullptr);

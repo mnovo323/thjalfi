@@ -13,6 +13,13 @@ namespace Movegen
 
     void knight_move(Position* position);
 
+    // sliding pieces... Just need to find a bitboard transformatino algorithm...
+    // queen == rook + bishop
+    // FUCK
+    // Need attack bitboards soon for checks.
+
+    void bishop_move(Position* position);
+
 }; // namespace Movegen
 
 #endif
